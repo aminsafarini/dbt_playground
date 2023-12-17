@@ -1,18 +1,18 @@
 version: 2
 
 sources:
-  - name: demo
+  - name: raw_retail_data
     database: analytics
-    schema: demo_s3_data
+    schema: public
     loader: s3
     # loaded_at_field: collector_tstamp   # field to indicate freshness
   
     tables:  
       - name: raw_retail_data
         external:
-            location: "https://dbt-demo-shenanigans.s3.amazonaws.com/data/" 
-            row_format: csv
-            table_properties: "('skip.header.line.count'='1')"
+            location: "https://dbt-demo-shenanigans.s3.amazonaws.com/data/online_retail_data.csv" 
+            row_format: "csv"
+            table_properties: "delimiter ',' ignoreheader 1"
         columns:
           - name: InvoiceNo
             data_type: varchar(255)
