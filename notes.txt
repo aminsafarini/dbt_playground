@@ -1,0 +1,36 @@
+# Tips
+
+- Always create a staging layer
+    - This ideally maps 1:1 cleaned up versions of raw tables
+    - tansformation examples inclued renaming cols, casting, etc.
+    - this helps for many reasons
+        - modularity - instead of having the same source column transformed in many different ways
+          you set it once for the entire project. Makes furture updates easiers by changes to one layer
+        - can act as a gate keeper for your project. For example, maybe you want to filter all your data
+          at the beginning of the project to exclude some data
+    - named stg_name.sql
+    - use CTEs
+    - bring the models you need as import CTEs
+        - eg:
+        with some_model as (
+            select * from {{ ref('stg_some_model) }}
+        )
+    - create final CTE with columns you need, then have a following select * CTE to run it all
+    - make use of directories to help with DRY (don't repeat yourself)
+    - create a style guide for naming
+        - add the guide in the README
+        - dbt official style guide: https://docs.getdbt.com/best-practices/how-we-style/0-how-we-style-our-dbt-projects 
+- 
+
+
+## Loading data
+- to load data from S3, can make use of external tables via the dbt-labs/dbt_external_tables package
+    - in packages.yml add:
+    - package: dbt-labs/dbt_external_tables
+      version: [input most recent version]
+    - Run dbt deps to install the package.
+
+
+
+Useful:
+- https://www.youtube.com/watch?v=B1zEKtoD8QY (DBT + Spark/EMR + S3/Delta Lake)
