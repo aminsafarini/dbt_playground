@@ -1,0 +1,42 @@
+version: 2
+
+sources:
+  - name: demo
+    database: analytics
+    schema: demo_s3_data
+    loader: s3
+    # loaded_at_field: collector_tstamp   # field to indicate freshness
+  
+    tables:  
+      - name: raw_retail_data
+        external:
+            location: "https://dbt-demo-shenanigans.s3.amazonaws.com/data/" 
+            row_format: csv
+            table_properties: "('skip.header.line.count'='1')"
+        columns:
+          - name: InvoiceNo
+            data_type: varchar(255)
+            description: "The invoice number"
+          - name: StockCode
+            data_type: varchar(255)
+            description: "The stock code"   
+          - name: Description
+            data_type: varchar(255)
+            description: "Description of the order"   
+          - name: Quantity
+            data_type: int
+            description: "The quantity ordered"   
+          - name: InvoiceDate
+            data_type: date   
+            description: "Date of order"       
+          - name: UnitPrice
+            data_type: float
+            description: "The price of the unit in dollars"   
+          - name: CustomerID
+            data_type: integer
+            description: "The customer ID"   
+          - name: Country
+            data_type: varchar(255)     
+            description: "Country that made the order"                 
+          
+          
